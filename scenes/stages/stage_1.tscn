@@ -1,0 +1,67 @@
+[gd_scene load_steps=2 format=3 uid="uid://stage1"]
+
+[ext_resource type="Script" path="res://scripts/stages/stage_1.gd"]
+
+[node name="Stage1" type="Node3D"]
+script = ExtResource("res://scripts/stages/stage_1.gd")
+
+# Spawn point where player starts
+[node name="SpawnPoint" type="Marker3D" parent="."]
+position = Vector3(-6, 2, 0)
+
+# The 4 Blocks to jump across
+[node name="Block1" type="CSGBox3D" parent="."]
+size = Vector3(1.5, 0.5, 1.5)
+position = Vector3(-4, 1, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color.BLUE
+
+[node name="Block2" type="CSGBox3D" parent="."]
+size = Vector3(1.5, 0.5, 1.5)
+position = Vector3(-1, 1, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color.BLUE
+
+[node name="Block3" type="CSGBox3D" parent="."]
+size = Vector3(1.5, 0.5, 1.5)
+position = Vector3(2, 1, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color.BLUE
+
+[node name="Block4" type="CSGBox3D" parent="."]
+size = Vector3(1.5, 0.5, 1.5)
+position = Vector3(5, 1, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color.BLUE
+
+# Lava hazard below (killing floor)
+[node name="LavaHazard" type="Area3D" parent="."]
+position = Vector3(0, -2, 0)
+
+[node name="LavaShape" type="CollisionShape3D" parent="LavaHazard"]
+shape = BoxShape3D()
+shape.size = Vector3(15, 1, 15)
+
+[node name="LavaVisual" type="CSGBox3D" parent="LavaHazard"]
+size = Vector3(15, 1, 15)
+material = StandardMaterial3D()
+material.albedo_color = Color(1, 0.5, 0, 0.8)
+
+# Finish area - exit zone
+[node name="FinishArea" type="Area3D" parent="."]
+position = Vector3(7.5, 1, 0)
+
+[node name="FinishShape" type="CollisionShape3D" parent="FinishArea"]
+shape = BoxShape3D()
+shape.size = Vector3(2, 3, 3)
+
+[node name="FinishVisual" type="CSGBox3D" parent="FinishArea"]
+size = Vector3(2, 3, 3)
+material = StandardMaterial3D()
+material.albedo_color = Color.GREEN
+
+# UI Label
+[node name="StageName" type="Label3D" parent="."]
+text = "STAGE 1: Jump Across 4 Blocks!"
+position = Vector3(0, 4, 0)
+font_size = 36
