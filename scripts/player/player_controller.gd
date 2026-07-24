@@ -9,6 +9,9 @@ extends CharacterBody3D
 
 var is_alive: bool = true
 var current_stage: int = 0
+var jump_sound: AudioStreamPlayer3D
+var land_sound: AudioStreamPlayer3D
+var was_on_floor: bool = false
 
 func _ready():
 	# Set up collision shape if not already present
@@ -20,6 +23,20 @@ func _ready():
 		collision_shape.shape = capsule_shape
 		add_child(collision_shape)
 	
+	# Set up jump and landing sounds
+	jump_sound = AudioStreamPlayer3D.new()
+	jump_sound.name = "JumpSound"
+	jump_sound.stream = load("res://assets/sounds/jump.ogg")
+	jump_sound.volume_db = 3
+	add_child(jump_sound)
+	
+	land_sound = AudioStreamPlayer3D.new()
+	land_sound.name = "LandSound"
+	land_sound.stream = load("res://assets/sounds/land.ogg")
+	land_sound.volume_db = 2
+	add_child(land_sound)
+	
+	was_on_floor = is_on_floor()
 	print("Player spawned at: ", global_position)
 
 func _physics_process(delta):
@@ -47,8 +64,24 @@ func _physics_process(delta):
 	# Jump
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump_force
+		play_jump_sound()
 	
+	# Landing sound
+	if is_on_floor() and not was_on_floor and velocity.y <= 0:
+		play_land_sound()
+	
+	was_on_floor = is_on_floor()
 	move_and_slide()
+
+func play_jump_sound():
+	"""Play jump sound effect"""
+	if jump_sound and jump_sound.stream:
+		jump_sound.play()
+
+func play_land_sound():
+	"""Play landing sound effect"""
+	if land_sound and land_sound.stream:
+		land_sound.play()
 
 func die():
 	"""Player dies - handle respawn"""

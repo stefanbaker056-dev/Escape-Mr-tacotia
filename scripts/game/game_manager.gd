@@ -7,6 +7,8 @@ var total_stages: int = 25
 var player: CharacterBody3D
 var is_game_active: bool = false
 var current_stage_scene: Node3D
+var audio_manager: Node
+var success_sound: AudioStreamPlayer
 
 # Restaurant areas
 var dining_area: Node3D
@@ -18,8 +20,17 @@ var back_exit: Node3D
 func _ready():
 	print("Game Manager initialized")
 	is_game_active = true
+	setup_audio_manager()
 	start_game()
-	
+
+func setup_audio_manager():
+	"""Set up the audio manager"""
+	audio_manager = get_node("/root/Main/AudioManager")
+	if audio_manager:
+		print("Audio Manager connected")
+	else:
+		print("Warning: Audio Manager not found")
+
 func start_game():
 	"""Start the game from stage 1"""
 	current_stage = 1
@@ -31,6 +42,9 @@ func next_stage():
 	"""Progress to the next stage"""
 	current_stage += 1
 	print("Stage %d/%d" % [current_stage, total_stages])
+	
+	# Play success sound
+	play_success_sound()
 	
 	if current_stage > total_stages:
 		win_game()
@@ -64,6 +78,18 @@ func load_scene(scene_path: String):
 		print("Loaded: %s" % scene_path)
 	else:
 		print("Failed to load: %s" % scene_path)
+
+func play_success_sound():
+	"""Play success/stage complete sound"""
+	if not success_sound:
+		success_sound = AudioStreamPlayer.new()
+		success_sound.stream = load("res://assets/sounds/success.ogg")
+		success_sound.volume_db = 5
+		add_child(success_sound)
+	
+	if success_sound and success_sound.stream:
+		success_sound.play()
+		print("Success!")
 
 func win_game():
 	"""Player successfully escaped!"""
