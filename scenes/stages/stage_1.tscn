@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://stage1"]
+[gd_scene load_steps=3 format=3 uid="uid://stage1"]
 
 [ext_resource type="Script" path="res://scripts/stages/stage_1.gd"]
+[ext_resource type="AudioStream" path="res://assets/sounds/death.ogg"]
 
 [node name="Stage1" type="Node3D"]
 script = ExtResource("res://scripts/stages/stage_1.gd")
@@ -46,6 +47,11 @@ shape.size = Vector3(15, 1, 15)
 size = Vector3(15, 1, 15)
 material = StandardMaterial3D()
 material.albedo_color = Color(1, 0.5, 0, 0.8)
+
+# Death sound effect
+[node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("res://assets/sounds/death.ogg")
+volume_db = 5
 
 # Finish area - exit zone
 [node name="FinishArea" type="Area3D" parent="."]

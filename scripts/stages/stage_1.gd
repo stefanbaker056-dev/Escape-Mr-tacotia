@@ -12,6 +12,7 @@ var finish_area: Area3D
 var player: CharacterBody3D
 var lava_hazard: Node3D
 var blocks: Array[Node3D] = []
+var death_sound: AudioStreamPlayer3D
 
 func _ready():
 	# Get references to important nodes
@@ -19,6 +20,7 @@ func _ready():
 	finish_area = $FinishArea
 	player = get_node("/root/Main/Player")
 	lava_hazard = $LavaHazard
+	death_sound = $DeathSound
 	
 	# Get all the block platforms
 	blocks = [$Block1, $Block2, $Block3, $Block4]
@@ -46,8 +48,13 @@ func _on_lava_entered(body):
 	"""Called when player touches lava"""
 	if body == player and player.is_alive:
 		player.die()
+		
+		# Play death sound
+		if death_sound:
+			death_sound.play()
+		
 		print("Fell into lava! Respawning...")
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(1.5).timeout
 		if spawn_point and player:
 			player.respawn(spawn_point.global_position)
 
