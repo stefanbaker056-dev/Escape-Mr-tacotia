@@ -1,0 +1,120 @@
+[gd_scene load_steps=3 format=3 uid="uid://stage2"]
+
+[ext_resource type="Script" path="res://scripts/stages/stage_2.gd"]
+[ext_resource type="AudioStream" path="res://assets/sounds/death.ogg"]
+
+[node name="Stage2" type="Node3D"]
+script = ExtResource("res://scripts/stages/stage_2.gd")
+
+# Spawn point where player starts
+[node name="SpawnPoint" type="Marker3D" parent="."]
+position = Vector3(-8, 2, 0)
+
+# Main platform to walk across
+[node name="Platform" type="CSGBox3D" parent="."]
+size = Vector3(15, 0.5, 2)
+position = Vector3(0, 1.5, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color.LIGHT_GRAY
+
+# Swinging Axe 1
+[node name="Axe1" type="Node3D" parent="."]
+position = Vector3(-4, 3, 0)
+
+[node name="AxeHead1" type="CSGBox3D" parent="Axe1"]
+size = Vector3(0.5, 2, 0.3)
+position = Vector3(0, 0, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color.DARK_GRAY
+
+[node name="AxeHandle1" type="CSGBox3D" parent="Axe1"]
+size = Vector3(0.1, 0.5, 0.1)
+position = Vector3(0, -1.2, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color(0.6, 0.4, 0.2)
+
+# Swinging Axe 2
+[node name="Axe2" type="Node3D" parent="."]
+position = Vector3(0, 3, 0)
+
+[node name="AxeHead2" type="CSGBox3D" parent="Axe2"]
+size = Vector3(0.5, 2, 0.3)
+position = Vector3(0, 0, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color.DARK_GRAY
+
+[node name="AxeHandle2" type="CSGBox3D" parent="Axe2"]
+size = Vector3(0.1, 0.5, 0.1)
+position = Vector3(0, -1.2, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color(0.6, 0.4, 0.2)
+
+# Swinging Axe 3
+[node name="Axe3" type="Node3D" parent="."]
+position = Vector3(4, 3, 0)
+
+[node name="AxeHead3" type="CSGBox3D" parent="Axe3"]
+size = Vector3(0.5, 2, 0.3)
+position = Vector3(0, 0, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color.DARK_GRAY
+
+[node name="AxeHandle3" type="CSGBox3D" parent="Axe3"]
+size = Vector3(0.1, 0.5, 0.1)
+position = Vector3(0, -1.2, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color(0.6, 0.4, 0.2)
+
+# Lava hazard below (killing floor)
+[node name="LavaHazard" type="Area3D" parent="."]
+position = Vector3(0, -2, 0)
+
+[node name="LavaShape" type="CollisionShape3D" parent="LavaHazard"]
+shape = BoxShape3D()
+shape.size = Vector3(20, 1, 15)
+
+[node name="LavaVisual" type="CSGBox3D" parent="LavaHazard"]
+size = Vector3(20, 1, 15)
+material = StandardMaterial3D()
+material.albedo_color = Color(1, 0.5, 0, 0.8)
+
+# Lava ambient sound effect (looping)
+[node name="LavaSound" type="AudioStreamPlayer3D" parent="LavaHazard"]
+stream = ExtResource("res://assets/sounds/lava.ogg")
+volume_db = -8
+bus = &"Master"
+
+# Death sound effect
+[node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("res://assets/sounds/death.ogg")
+volume_db = 5
+
+# Axe hit sound effect
+[node name="AxeHitSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("res://assets/sounds/hit.ogg")
+volume_db = 5
+
+# Finish area - exit zone (platforms on other side)
+[node name="FinishPlatform" type="CSGBox3D" parent="."]
+size = Vector3(3, 0.5, 2)
+position = Vector3(10, 1.5, 0)
+material = StandardMaterial3D()
+material.albedo_color = Color.LIGHT_GRAY
+
+[node name="FinishArea" type="Area3D" parent="."]
+position = Vector3(10, 2, 0)
+
+[node name="FinishShape" type="CollisionShape3D" parent="FinishArea"]
+shape = BoxShape3D()
+shape.size = Vector3(3, 2, 3)
+
+[node name="FinishVisual" type="CSGBox3D" parent="FinishArea"]
+size = Vector3(3, 2, 3)
+material = StandardMaterial3D()
+material.albedo_color = Color.GREEN
+
+# UI Label
+[node name="StageName" type="Label3D" parent="."]
+text = "STAGE 2: Dodge the Swinging Axes!"
+position = Vector3(0, 5, 0)
+font_size = 36
